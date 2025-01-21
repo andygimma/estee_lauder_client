@@ -36,7 +36,11 @@ function Map() {
             position={[marker.latitude, marker.longitude]}
           >
             <Popup>
-              <h2>{marker.unique_number}</h2>
+              <h2>
+                <a href={`/world-heritage-site/${marker.id}`}>
+                  {marker.unique_number}
+                </a>
+              </h2>
             </Popup>
           </Marker>
         ))}

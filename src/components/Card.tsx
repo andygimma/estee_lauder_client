@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import { FaRegStar } from "react-icons/fa";
 
 function removeTags(str: string) {
   str = str.toString();
@@ -10,7 +11,6 @@ function removeTags(str: string) {
 
 function Card() {
   let params = useParams();
-  console.log({ params: params.id });
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ["repoData"],
     queryFn: async () => {
@@ -21,7 +21,6 @@ function Card() {
     },
   });
 
-  console.log({ isPending, error, data, isFetching });
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
@@ -55,7 +54,11 @@ function Card() {
           <h2 className="text-2xl">Reviews</h2>
           {data.data.reviews.map((review: any) => (
             <>
-              <p>Rating: {review.rating}</p>
+              <div className="flex justify-center">
+                {new Array(review.rating).fill("").map((_, index) => (
+                  <FaRegStar key={index} />
+                ))}
+              </div>
               <p>{review.content}</p>
             </>
           ))}
