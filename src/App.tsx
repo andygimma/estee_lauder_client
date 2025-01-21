@@ -1,8 +1,34 @@
-import { useState } from "react";
-import "./App.css";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Card />
+    </QueryClientProvider>
+  );
+}
+
+function Card() {
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: async () => {
+      const response = await fetch(
+        "http://localhost:4000/api/world_heritage_sites/map"
+      );
+      return await response.json();
+    },
+  });
+
+  console.log({ isPending, error, data, isFetching });
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <main className="flex flex-col justify-center align-middle w-full text-center">
