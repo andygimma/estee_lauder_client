@@ -59,6 +59,28 @@ function Map() {
       popUp: "Pop up 3",
     },
   ];
+
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: async () => {
+      const response = await fetch(
+        "http://localhost:4000/api/world_heritage_sites/map"
+      );
+      return await response.json();
+    },
+  });
+
+  console.log({ isPending, error, data, isFetching });
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  type Marker = {
+    id: number;
+    unique_number: number;
+    latitude: number;
+    longitude: number;
+  };
   return (
     <MapContainer className="h-[100vh]" center={[51.505, -0.09]} zoom={3}>
       <TileLayer
@@ -66,10 +88,13 @@ function Map() {
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MarkerClusterGroup chunkedLoading>
-        {markers.map((marker) => (
-          <Marker position={marker.geocode}>
+        {data.data.map((marker: Marker) => (
+          <Marker
+            key={marker.unique_number}
+            position={[marker.latitude, marker.longitude]}
+          >
             <Popup>
-              <h2>{marker.popUp}</h2>
+              <h2>{marker.unique_number}</h2>
             </Popup>
           </Marker>
         ))}
