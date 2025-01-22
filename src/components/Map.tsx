@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import PopupInfo from "./PopupInfo";
 
 function Map() {
   const { isPending, error, data } = useQuery({
-    queryKey: ["repoData"],
+    queryKey: ["mapData"],
     queryFn: async () => {
       const response = await fetch(
         "http://localhost:4000/api/world_heritage_sites/map"
@@ -36,11 +37,7 @@ function Map() {
             position={[marker.latitude, marker.longitude]}
           >
             <Popup>
-              <h2>
-                <a href={`/world-heritage-site/${marker.id}`}>
-                  {marker.unique_number}
-                </a>
-              </h2>
+              <PopupInfo markerId={marker.id} />
             </Popup>
           </Marker>
         ))}
@@ -48,5 +45,4 @@ function Map() {
     </MapContainer>
   );
 }
-
 export default Map;

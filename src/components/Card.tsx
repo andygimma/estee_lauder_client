@@ -3,16 +3,12 @@ import { useParams } from "react-router";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { FaRegStar } from "react-icons/fa";
-
-function removeTags(str: string) {
-  str = str.toString();
-  return str.replace(/(<([^>]+)>)/gi, "");
-}
+import { removeTags } from "../utils";
 
 function Card() {
   let params = useParams();
-  const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ["repoData"],
+  const { isPending, error, data } = useQuery({
+    queryKey: ["siteData"],
     queryFn: async () => {
       const response = await fetch(
         `http://localhost:4000/api/world_heritage_sites/${params.id}`
