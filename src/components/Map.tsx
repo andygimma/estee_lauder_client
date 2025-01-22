@@ -36,7 +36,7 @@ function Map() {
             key={marker.unique_number}
             position={[marker.latitude, marker.longitude]}
           >
-            <Popup>
+            <Popup className="w-[350px] mx-auto">
               <PopupInfo markerId={marker.id} />
             </Popup>
           </Marker>

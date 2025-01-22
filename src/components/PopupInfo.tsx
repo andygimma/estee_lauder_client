@@ -7,7 +7,7 @@ type PopupInfoProps = {
 
 const PopupInfo = ({ markerId }: PopupInfoProps) => {
   const { isPending, error, data } = useQuery({
-    queryKey: ["siteData"],
+    queryKey: ["siteData", markerId],
     queryFn: async () => {
       const response = await fetch(
         `http://localhost:4000/api/world_heritage_sites/${markerId}`
@@ -21,7 +21,7 @@ const PopupInfo = ({ markerId }: PopupInfoProps) => {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <>
+    <div className="">
       <h2 className="text-2xl">
         <a href={`/world-heritage-site/${data?.data?.id}`}>
           {" "}
@@ -29,7 +29,7 @@ const PopupInfo = ({ markerId }: PopupInfoProps) => {
         </a>
       </h2>
       <p>{removeTags(data?.data?.short_description_en)}</p>
-    </>
+    </div>
   );
 };
 

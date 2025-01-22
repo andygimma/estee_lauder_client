@@ -8,7 +8,7 @@ import { removeTags } from "../utils";
 function Card() {
   let params = useParams();
   const { isPending, error, data } = useQuery({
-    queryKey: ["siteData"],
+    queryKey: ["siteData", params.id],
     queryFn: async () => {
       const response = await fetch(
         `http://localhost:4000/api/world_heritage_sites/${params.id}`
