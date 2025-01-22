@@ -20,10 +20,14 @@ const PopupInfo = ({ markerId }: PopupInfoProps) => {
 
   if (error) return "An error has occurred: " + error.message;
 
-  console.log("Popup Info", markerId, data);
   return (
     <>
-      <h2 className="text-2xl">{data?.data?.name_en}</h2>
+      <h2 className="text-2xl">
+        <a href={`/world-heritage-site/${data?.data?.id}`}>
+          {" "}
+          {data?.data?.name_en}
+        </a>
+      </h2>
       <p>{removeTags(data?.data?.short_description_en)}</p>
     </>
   );
